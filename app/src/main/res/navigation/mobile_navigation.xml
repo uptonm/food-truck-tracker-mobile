@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="wit.edu.food_truck_tracker_mobile.ui.home.HomeSecondFragment"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.home.HomeFragment"
         android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
             app:destination="@id/nav_home" />
