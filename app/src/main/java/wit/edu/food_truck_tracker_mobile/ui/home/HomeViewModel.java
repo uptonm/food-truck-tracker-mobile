@@ -9,11 +9,14 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText = new MutableLiveData<>("This is the value");
     }
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public void setText(String str) {
+        mText.postValue(str);
     }
 }

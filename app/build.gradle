@@ -38,6 +38,11 @@ dependencies {
     // Dynamic Feature Module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
+    // Location Data Support
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
+    implementation 'io.nlopez.smartlocation:rx:3.3.3'
+
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     testImplementation 'junit:junit:4.12'
