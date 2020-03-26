@@ -46,11 +46,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        if(ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        } else {
-            getLocationUpdates();
-        }
         return root;
     }
 
