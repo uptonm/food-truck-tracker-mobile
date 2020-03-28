@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 
@@ -35,6 +39,7 @@ import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.AuthRequestBody;
 import wit.edu.food_truck_tracker_mobile.models.AuthTokenResponse;
 import wit.edu.food_truck_tracker_mobile.models.Truck;
+import wit.edu.food_truck_tracker_mobile.models.User;
 
 public class LoginFragment extends Fragment {
 
@@ -55,32 +60,7 @@ public class LoginFragment extends Fragment {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "LOGIN CLICKED!!!");
-                TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
-                Call<AuthTokenResponse> login =
-                        trackerApiService.login(new AuthRequestBody(
-                                emailInput.getText().toString(),
-                                passwordInput.getText().toString()
-                        ));
-                login.enqueue(new Callback<AuthTokenResponse>() {
-                    @Override
-                    public void onResponse(Call<AuthTokenResponse> call, Response<AuthTokenResponse> response) {
-                        if (response.code() == 200) {
-                            AuthTokenResponse token = response.body();
-                            Log.d("TAG", token.getJwtToken());
-                            saveToken(token.getJwtToken());
-                            Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                            Log.d("TAG", "Token saved: " + getToken());
-                        } else {
-                            Toast.makeText(getContext(), "Login Failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<AuthTokenResponse> call, Throwable t) {
-                        Log.d("TAG", t.getMessage());
-                    }
-                });
+                handleLogin(emailInput.getText().toString(), passwordInput.getText().toString());
             }
         });
 
@@ -150,5 +130,76 @@ public class LoginFragment extends Fragment {
         SharedPreferences prefs=this.getActivity().getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
         String token = prefs.getString("token","");
         return token;
+    }
+
+    private void handleLogin(String email, String password) {
+        TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
+        Call<AuthTokenResponse> login = trackerApiService.login(new AuthRequestBody(email, password));
+        login.enqueue(new Callback<AuthTokenResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onResponse(Call<AuthTokenResponse> call, Response<AuthTokenResponse> response) {
+                if (response.code() == 200) {
+                    AuthTokenResponse token = response.body();
+                    Log.d("TAG", token.getJwtToken());
+                    saveToken(token.getJwtToken());
+                    Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "Token saved: " + getToken());
+                    handlePostLogin(token.getJwtToken());
+                } else {
+                    Toast.makeText(getContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthTokenResponse> call, Throwable t) {
+                Log.d("TAG", t.getMessage());
+            }
+        });
+    }
+
+    private void handlePostLogin(String token) {
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.nav_trucks);
+
+        TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
+        Call<User> getUser = trackerApiService.getUser("Bearer " + token);
+        getUser.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User userResponse = response.body();
+                handleUpdateView(userResponse.getFirst() + " " + userResponse.getLast(), userResponse.getEmail());
+                Log.d("TAG", userResponse.toString());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void handleUpdateView(String fullName, String email) {
+        NavigationView navView = getActivity().findViewById(R.id.nav_view);
+        View header = navView.getHeaderView(0);
+
+        // Hide Login Button
+        Button loginButton = navView.findViewById(R.id.nav_login_button);
+        loginButton.setVisibility(View.GONE);
+
+        // Show User Email and Name
+        if (!fullName.equals("null null")) {
+            TextView username = navView.findViewById(R.id.username);
+            username.setText(fullName);
+            username.setVisibility(View.VISIBLE);
+        }
+
+        TextView userEmail = navView.findViewById(R.id.user_email);
+        userEmail.setText(email);
+        userEmail.setVisibility(View.VISIBLE);
+
+        // Show Sample Avatar
+        ImageView avatar = navView.findViewById(R.id.avatar);
+        avatar.setVisibility(View.VISIBLE);
     }
 }

@@ -10,16 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -30,8 +32,8 @@ import wit.edu.food_truck_tracker_mobile.R;
 import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.AuthRequestBody;
-import wit.edu.food_truck_tracker_mobile.models.AuthTokenResponse;
 import wit.edu.food_truck_tracker_mobile.models.SignupRequestResponse;
+import wit.edu.food_truck_tracker_mobile.models.User;
 
 public class SignupFragment extends Fragment {
 
@@ -111,19 +113,22 @@ public class SignupFragment extends Fragment {
     private void switchToLogin() {
         Log.d("TAG", "Listener Worked");
         NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
-        navController.navigate(R.id.nav_login);
+        navController.navigate(R.id.nav_login_button);
     }
 
     private void handleSignup(String email, String password) {
         TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
         Call<SignupRequestResponse> login = trackerApiService.signup(new AuthRequestBody(email, password));
         login.enqueue(new Callback<SignupRequestResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onResponse(Call<SignupRequestResponse> call, Response<SignupRequestResponse> response) {
                 if (response.code() == 200) {
                     SignupRequestResponse signupResponse = response.body();
                     Log.d("TAG", signupResponse.getUser().toString());
                     Toast.makeText(getContext(), "Signup Successful", Toast.LENGTH_SHORT).show();
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.nav_login);
                 } else {
                     Toast.makeText(getContext(), "Signup Failed", Toast.LENGTH_SHORT).show();
                 }
