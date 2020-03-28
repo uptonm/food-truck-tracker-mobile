@@ -1,14 +1,14 @@
-package wit.edu.food_truck_tracker_mobile.ui.slideshow;
+package wit.edu.food_truck_tracker_mobile.ui.create_truck;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class CreateTruckViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public CreateTruckViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is slideshow fragment");
     }

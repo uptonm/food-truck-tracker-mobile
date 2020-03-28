@@ -1,4 +1,4 @@
-package wit.edu.food_truck_tracker_mobile.ui.gallery;
+package wit.edu.food_truck_tracker_mobile.ui.create_truck;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import wit.edu.food_truck_tracker_mobile.R;
 
-public class GalleryFragment extends Fragment {
+public class CreateTruckFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private CreateTruckViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-               new ViewModelProvider(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        slideshowViewModel =
+                new ViewModelProvider(this).get(CreateTruckViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_create_truck, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_trucks">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="wit.edu.food_truck_tracker_mobile.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/nav_trucks"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.trucks.TrucksFragment"
+        android:label="@string/menu_trucks"
+        tools:layout="@layout/fragment_trucks">
 
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
@@ -17,12 +17,12 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="wit.edu.food_truck_tracker_mobile.ui.home.HomeFragment"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.trucks.TrucksFragment"
         android:label="@string/home_second"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_trucks">
         <action
             android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_trucks" />
 
         <argument
             android:name="myArg"
@@ -30,14 +30,19 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="wit.edu.food_truck_tracker_mobile.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_liked"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.liked.LikedFragment"
+        android:label="@string/menu_liked"
+        tools:layout="@layout/fragment_liked" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="wit.edu.food_truck_tracker_mobile.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_create_truck"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.create_truck.CreateTruckFragment"
+        android:label="@string/menu_create_truck"
+        tools:layout="@layout/fragment_create_truck" />
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.login.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

@@ -7,9 +7,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Trucks</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_trucks">Find Trucks</string>
+    <string name="menu_liked">Liked Trucks</string>
+    <string name="menu_create_truck">Create A Truck</string>
+    <string name="menu_login">Log In or Sign Up</string>
 
     <string name="home_second">Home Second</string>
+    <string name="login_button">Log In</string>
+    <string name="signup_button">Sign Up</string>
 </resources>

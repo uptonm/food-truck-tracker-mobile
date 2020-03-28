@@ -1,14 +1,14 @@
-package wit.edu.food_truck_tracker_mobile.ui.gallery;
+package wit.edu.food_truck_tracker_mobile.ui.liked;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class LikedViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public LikedViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is gallery fragment");
     }
