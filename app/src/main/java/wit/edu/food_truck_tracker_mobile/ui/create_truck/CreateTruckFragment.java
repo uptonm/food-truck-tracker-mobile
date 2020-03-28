@@ -1,4 +1,4 @@
-package wit.edu.food_truck_tracker_mobile.ui.slideshow;
+package wit.edu.food_truck_tracker_mobile.ui.create_truck;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import wit.edu.food_truck_tracker_mobile.R;
 
-public class SlideshowFragment extends Fragment {
+public class CreateTruckFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private CreateTruckViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+                new ViewModelProvider(this).get(CreateTruckViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_create_truck, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
