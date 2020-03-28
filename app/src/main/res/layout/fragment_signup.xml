@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_button"
+        android:text="@string/signup_button"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/login_email"
+            android:id="@+id/signup_email"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -39,7 +39,7 @@
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/login_password"
+            android:id="@+id/signup_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -47,12 +47,21 @@
             android:hint="@string/password_hint"
             android:inputType="textPassword" />
 
+        <EditText
+            android:id="@+id/signup_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="@string/password_confirm_hint"
+            android:inputType="textPassword" />
+
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/signup_button"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_button" />
+            android:text="@string/signup_button" />
 
     </LinearLayout>
 
@@ -60,33 +69,35 @@
         android:id="@+id/imageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_above="@id/swipeLeft"
+        android:layout_above="@id/swipeRight"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="190dp"
         android:layout_marginLeft="190dp"
         android:layout_marginEnd="191dp"
         android:layout_marginRight="191dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_arrow_left"
-        app:layout_constraintBottom_toTopOf="@+id/swipeLeft"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRight"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/swipeLeft"
+        android:id="@+id/swipeRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginEnd="130dp"
-        android:layout_marginRight="130dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginLeft="131dp"
+        android:layout_marginEnd="131dp"
+        android:layout_marginRight="131dp"
         android:layout_marginBottom="100dp"
-        android:text="@string/swipe_left_for_signup"
+        android:text="@string/swipe_right_for_login"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
