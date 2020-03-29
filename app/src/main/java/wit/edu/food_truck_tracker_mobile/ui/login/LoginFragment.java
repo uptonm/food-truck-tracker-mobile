@@ -25,9 +25,6 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONException;
-
-import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -38,7 +35,6 @@ import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.AuthRequestBody;
 import wit.edu.food_truck_tracker_mobile.models.AuthTokenResponse;
-import wit.edu.food_truck_tracker_mobile.models.Truck;
 import wit.edu.food_truck_tracker_mobile.models.User;
 
 public class LoginFragment extends Fragment {
@@ -116,20 +112,20 @@ public class LoginFragment extends Fragment {
         navController.navigate(R.id.nav_signup);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void saveToken(String jwt) {
         SharedPreferences prefs;
         SharedPreferences.Editor edit;
-        prefs=getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        prefs= Objects.requireNonNull(getActivity()).getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         edit=prefs.edit();
         edit.putString("token", jwt);
         Log.i("Login", jwt);
-        edit.commit();
+        edit.apply();
     }
 
     private String getToken() {
         SharedPreferences prefs=this.getActivity().getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
-        String token = prefs.getString("token","");
-        return token;
+        return prefs.getString("token","");
     }
 
     private void handleLogin(String email, String password) {
@@ -151,15 +147,17 @@ public class LoginFragment extends Fragment {
                 }
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onFailure(Call<AuthTokenResponse> call, Throwable t) {
-                Log.d("TAG", t.getMessage());
+                Log.d("TAG", Objects.requireNonNull(t.getMessage()));
             }
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handlePostLogin(String token) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
         navController.navigate(R.id.nav_trucks);
 
         TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);

@@ -1,8 +1,12 @@
 package wit.edu.food_truck_tracker_mobile;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -12,7 +16,12 @@ import io.nlopez.smartlocation.location.config.LocationParams;
 import retrofit2.Call;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -29,6 +38,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,6 +109,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem logoutBtn = menu.findItem(R.id.action_logout);
+        logoutBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d("TAG", "Handle Log Out");
+                handleLogout();
+                return false;
+            }
+        });
         return true;
     }
 
@@ -134,7 +153,15 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Truck>> call, Response<List<Truck>> response) {
                 List<Truck> trucks = response.body();
                 for (Truck truck : trucks) {
-                    Log.d("TAG", truck.getId());
+                    Log.d("TAG", truck.getName());
+
+                    if (truck.getName().equals("Moyzilla")) {
+//                       routeToLocation(
+//                               latitude,
+//                               longitude,
+//                               truck.getLocation().getCoordinates()[0].toString(),
+//                               truck.getLocation().getCoordinates()[1].toString());
+                    }
                 }
             }
 
@@ -143,5 +170,44 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG", t.getMessage());
             }
         });
+    }
+
+    private void wipeToken() {
+        SharedPreferences prefs;
+        SharedPreferences.Editor edit;
+        prefs=getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        edit=prefs.edit();
+        edit.remove("token");
+        Log.i("TAG", "Removing JWT");
+        edit.apply();
+    }
+
+    private void handleLogout() {
+        NavigationView navView = findViewById(R.id.nav_view);
+        View header = navView.getHeaderView(0);
+
+        // Hide Login Button
+        Button loginButton = navView.findViewById(R.id.nav_login_button);
+        loginButton.setVisibility(View.VISIBLE);
+
+        // Hide User Email and Name
+        TextView username = navView.findViewById(R.id.username);
+        username.setVisibility(View.GONE);
+
+        TextView userEmail = navView.findViewById(R.id.user_email);
+        userEmail.setVisibility(View.GONE);
+
+        // Show Sample Avatar
+        ImageView avatar = navView.findViewById(R.id.avatar);
+        avatar.setVisibility(View.GONE);
+
+        // Remove JWT
+        wipeToken();
+    }
+
+    private void routeToLocation(String sourceLatitude, String sourceLongitude, String destinationLatitude, String destinationLongitude) {
+        String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," + sourceLongitude + "&daddr=" + destinationLatitude + "," + destinationLongitude;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
     }
 }
