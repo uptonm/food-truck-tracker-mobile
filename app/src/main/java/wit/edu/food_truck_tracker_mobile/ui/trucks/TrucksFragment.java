@@ -1,25 +1,18 @@
 package wit.edu.food_truck_tracker_mobile.ui.trucks;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,8 +30,7 @@ import wit.edu.food_truck_tracker_mobile.R;
 import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.Truck;
-import wit.edu.food_truck_tracker_mobile.ui.trucks.TrucksViewModel;
-import wit.edu.food_truck_tracker_mobile.ui.trucks.TruckCardAdapter;
+import wit.edu.food_truck_tracker_mobile.shared.TruckCardAdapter;
 
 public class TrucksFragment extends Fragment {
 
@@ -47,7 +39,7 @@ public class TrucksFragment extends Fragment {
     private String latitude;
     private String longitude;
     private boolean called = false;
-    private TrucksViewModel galleryViewModel;
+    private TrucksViewModel trucksViewModel;
     private List<Truck> trucks_list = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.Adapter truckAdapter;
@@ -55,7 +47,7 @@ public class TrucksFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
+        trucksViewModel =
                 new ViewModelProvider(this).get(TrucksViewModel.class);
         View root = inflater.inflate(R.layout.fragment_trucks, container, false);
 
@@ -104,7 +96,7 @@ public class TrucksFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
 
                 // specify an adapter (see also next example)
-                truckAdapter = new TruckCardAdapter(trucks_list);
+                truckAdapter = new TruckCardAdapter(trucks_list, getContext());
                 recyclerView.setAdapter(truckAdapter);
             }
 

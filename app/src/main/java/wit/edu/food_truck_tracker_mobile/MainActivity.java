@@ -204,10 +204,4 @@ public class MainActivity extends AppCompatActivity {
         // Remove JWT
         wipeToken();
     }
-
-    private void routeToLocation(String sourceLatitude, String sourceLongitude, String destinationLatitude, String destinationLongitude) {
-        String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," + sourceLongitude + "&daddr=" + destinationLatitude + "," + destinationLongitude;
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        startActivity(intent);
-    }
 }

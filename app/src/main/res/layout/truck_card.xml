@@ -1,60 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:padding="16dp"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="7dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/truck_card_view"
+        app:cardElevation="6dp"
+        app:cardCornerRadius="6dp"
+        android:layout_margin="8dp"
+        android:clickable="true"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            >
+            android:background="?attr/selectableItemBackground"
+            android:padding="16dp">
 
-            <ImageView
-                android:id="@+id/truck_photo"
-                android:src="@drawable/ic_menu_truck"
+            <TextView
+                android:id="@+id/truck_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/truck_name"
-                android:layout_toRightOf="@+id/truck_photo"
-                android:layout_alignParentTop="true"
                 android:textSize="30sp"
-                />
+                tools:text="Moyzilla" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/truck_type"
-                android:layout_toRightOf="@+id/truck_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/truck_name"
-                />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="false"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="-69dp"
+                tools:text="Japanese" />
+
             <TextView
+                android:id="@+id/truck_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/truck_location"
-                android:layout_toRightOf="@+id/truck_photo"
-                android:layout_below="@+id/truck_type"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/ic_heart"
+                android:drawablePadding="4dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="5"
+                app:drawableTint="#626262" />
+
+            <Button
                 android:id="@+id/truck_website"
-                android:layout_toRightOf="@+id/truck_photo"
-                android:layout_below="@+id/truck_location"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/truck_type"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="50dp"
+                android:layout_toLeftOf="@id/truck_location"
+                android:text="Website" />
+
+            <Button
+                android:id="@+id/truck_location"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/truck_type"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="50dp"
+                android:drawableStart="@drawable/ic_menu_truck"
+                android:drawableLeft="@drawable/ic_menu_truck"
+                android:drawablePadding="6dp"
+                android:drawableTint="@android:color/white"
+                android:text="Go To" />
 
         </RelativeLayout>
 
