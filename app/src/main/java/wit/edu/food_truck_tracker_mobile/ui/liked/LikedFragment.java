@@ -33,6 +33,7 @@ import wit.edu.food_truck_tracker_mobile.R;
 import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.Truck;
+import wit.edu.food_truck_tracker_mobile.models.User;
 
 public class LikedFragment extends Fragment {
 
@@ -56,16 +57,20 @@ public class LikedFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         String jwt = prefs.getString("token", "");
         Log.d("TAG", "GOT TOKEN FROM STORAGE: " + jwt);
-
-        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        if (jwt.length() > 0) {
+            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            } else {
+                getLocationUpdates(jwt);
+            }
         } else {
-            getLocationUpdates();
+            Toast.makeText(getActivity(), "You need to be logged in", Toast.LENGTH_SHORT).show();
         }
+
         return root;
     }
 
-    private void getLocationUpdates() {
+    private void getLocationUpdates(final String jwt) {
         SmartLocation.with(getContext()).location().config(LocationParams.NAVIGATION).start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
@@ -74,7 +79,7 @@ public class LikedFragment extends Fragment {
                     longitude = location.getLongitude() + "";
                     if (!called) {
                         called = true;
-                        getTrucks();
+                        getLikedTrucks(jwt);
                     }
                 } else
                     Toast.makeText(getActivity(), "Location is null", Toast.LENGTH_SHORT).show();
@@ -82,14 +87,16 @@ public class LikedFragment extends Fragment {
         });
     }
 
-    private void getTrucks() {
+    private void getLikedTrucks(String jwt) {
         TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
-        Call<List<Truck>> getTrucks = trackerApiService.searchTrucks(latitude, longitude, RADIUS);
-        getTrucks.enqueue(new Callback<List<Truck>>() {
+        Call<User> getUser = trackerApiService.getUser("Bearer " + jwt);
+        getUser.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<List<Truck>> call, Response<List<Truck>> response) {
-                List<Truck> trucks = response.body();
-                liked_trucks.addAll(trucks);
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                Log.d("TAG", user.toString());
+                List<Truck> likedTrucks = user.getLiked_trucks();
+                liked_trucks.addAll(likedTrucks);
 
                 recyclerView = getActivity().findViewById(R.id.liked_trucks_list);
                 // use a linear layout manager
@@ -102,7 +109,7 @@ public class LikedFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Truck>> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.d("TAG", t.getMessage());
             }
         });

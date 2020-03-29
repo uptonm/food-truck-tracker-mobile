@@ -24,12 +24,14 @@ public class TruckCardAdapter extends RecyclerView.Adapter<TruckCardAdapter.Truc
         CardView cv;
         TextView truckName;
         TextView truckType;
+        TextView truckLikes;
 
         TruckViewHolder(View itemView) {
             super(itemView);
             cv = itemView.findViewById(R.id.truck_card_view);
             truckName = itemView.findViewById(R.id.truck_name);
             truckType = itemView.findViewById(R.id.truck_type);
+            truckLikes = itemView.findViewById(R.id.truck_likes);
         }
     }
 
@@ -55,6 +57,7 @@ public class TruckCardAdapter extends RecyclerView.Adapter<TruckCardAdapter.Truc
         // - replace the contents of the view with that element
         holder.truckName.setText(this.trucks.get(position).getName());
         holder.truckType.setText(this.trucks.get(position).getType());
+        holder.truckLikes.setText(this.trucks.get(position).getLikes());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -17,13 +17,13 @@ public class Truck {
     private String menu;
     private String owner;
     private Location location;
-    private int likes;
+    private String likes;
 
-    public int getLikes() {
+    public String getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(String likes) {
         this.likes = likes;
     }
 

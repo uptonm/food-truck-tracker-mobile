@@ -14,7 +14,7 @@ public class User {
     private Location location;
     @SerializedName("_v")
     private String version;
-    private List<String> liked_trucks;
+    private List<Truck> liked_trucks;
 
     public String getId() {
         return id;
@@ -72,11 +72,11 @@ public class User {
         this.version = version;
     }
 
-    public List<String> getLiked_trucks() {
+    public List<Truck> getLiked_trucks() {
         return liked_trucks;
     }
 
-    public void setLiked_trucks(List<String> liked_trucks) {
+    public void setLiked_trucks(List<Truck> liked_trucks) {
         this.liked_trucks = liked_trucks;
     }
 
