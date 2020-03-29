@@ -41,6 +41,20 @@
                 android:layout_toRightOf="@+id/truck_photo"
                 android:layout_below="@+id/truck_name"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/truck_location"
+                android:layout_toRightOf="@+id/truck_photo"
+                android:layout_below="@+id/truck_type"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/truck_website"
+                android:layout_toRightOf="@+id/truck_photo"
+                android:layout_below="@+id/truck_location"
+                />
 
         </RelativeLayout>
 
