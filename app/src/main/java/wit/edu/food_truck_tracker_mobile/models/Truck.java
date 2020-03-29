@@ -17,6 +17,15 @@ public class Truck {
     private String menu;
     private String owner;
     private Location location;
+    private int likes;
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
 
     public String getId() {
         return id;
@@ -80,5 +89,20 @@ public class Truck {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Truck{" +
+                "id='" + id + '\'' +
+                ", version='" + version + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", website='" + website + '\'' +
+                ", menu='" + menu + '\'' +
+                ", owner='" + owner + '\'' +
+                ", location=" + location +
+                ", likes=" + likes +
+                '}';
     }
 }

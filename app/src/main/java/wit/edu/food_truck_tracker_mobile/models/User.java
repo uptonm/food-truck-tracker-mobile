@@ -2,6 +2,8 @@ package wit.edu.food_truck_tracker_mobile.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class User {
     @SerializedName("_id")
     private String id;
@@ -12,6 +14,7 @@ public class User {
     private Location location;
     @SerializedName("_v")
     private String version;
+    private List<String> liked_trucks;
 
     public String getId() {
         return id;
@@ -69,6 +72,14 @@ public class User {
         this.version = version;
     }
 
+    public List<String> getLiked_trucks() {
+        return liked_trucks;
+    }
+
+    public void setLiked_trucks(List<String> liked_trucks) {
+        this.liked_trucks = liked_trucks;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -79,6 +90,7 @@ public class User {
                 ", last='" + last + '\'' +
                 ", location=" + location +
                 ", version='" + version + '\'' +
+                ", liked_trucks=" + liked_trucks +
                 '}';
     }
 }
