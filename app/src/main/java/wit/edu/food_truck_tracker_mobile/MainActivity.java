@@ -45,6 +45,7 @@ import retrofit2.Response;
 import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.Truck;
+import wit.edu.food_truck_tracker_mobile.models.User;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 99;
@@ -94,6 +95,17 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         } else {
             getLocationUpdates();
+        }
+
+        SharedPreferences prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        String jwt = prefs.getString("token", "");
+        Log.d("TAG", "GOT TOKEN FROM STORAGE: " + jwt);
+        if (jwt.length() > 0) {
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            } else {
+                fetchUser(jwt);
+            }
         }
     }
 
@@ -205,9 +217,44 @@ public class MainActivity extends AppCompatActivity {
         wipeToken();
     }
 
-    private void routeToLocation(String sourceLatitude, String sourceLongitude, String destinationLatitude, String destinationLongitude) {
-        String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," + sourceLongitude + "&daddr=" + destinationLatitude + "," + destinationLongitude;
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        startActivity(intent);
+    private void fetchUser(String jwt) {
+        TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
+        Call<User> getUser = trackerApiService.getUser("Bearer " + jwt);
+        getUser.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                handleLoggedIn(user.getFirst() + " " + user.getLast(), user.getEmail());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("TAG", t.getMessage());
+            }
+        });
+    }
+
+    private void handleLoggedIn(String fullName, String email) {
+        NavigationView navView = findViewById(R.id.nav_view);
+        View header = navView.getHeaderView(0);
+
+        // Hide Login Button
+        Button loginButton = navView.findViewById(R.id.nav_login_button);
+        loginButton.setVisibility(View.GONE);
+
+        // Show User Email and Name
+        if (!fullName.equals("null null")) {
+            TextView username = navView.findViewById(R.id.username);
+            username.setText(fullName);
+            username.setVisibility(View.VISIBLE);
+        }
+
+        TextView userEmail = navView.findViewById(R.id.user_email);
+        userEmail.setText(email);
+        userEmail.setVisibility(View.VISIBLE);
+
+        // Show Sample Avatar
+        ImageView avatar = navView.findViewById(R.id.avatar);
+        avatar.setVisibility(View.VISIBLE);
     }
 }

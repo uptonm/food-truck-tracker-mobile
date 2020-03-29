@@ -28,12 +28,12 @@ import io.nlopez.smartlocation.location.config.LocationParams;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wit.edu.food_truck_tracker_mobile.MainActivity;
 import wit.edu.food_truck_tracker_mobile.R;
 import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
 import wit.edu.food_truck_tracker_mobile.models.Truck;
 import wit.edu.food_truck_tracker_mobile.models.User;
+import wit.edu.food_truck_tracker_mobile.shared.TruckCardAdapter;
 
 public class LikedFragment extends Fragment {
 
@@ -104,7 +104,7 @@ public class LikedFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
 
                 // specify an adapter (see also next example)
-                truckAdapter = new TruckCardAdapter(liked_trucks);
+                truckAdapter = new TruckCardAdapter(liked_trucks, getContext());
                 recyclerView.setAdapter(truckAdapter);
             }
 
