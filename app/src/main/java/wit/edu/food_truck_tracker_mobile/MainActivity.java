@@ -224,7 +224,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                handleLoggedIn(user.getFirst() + " " + user.getLast(), user.getEmail());
+                if (user != null) {
+                    handleLoggedIn(user.getFirst() + " " + user.getLast(), user.getEmail());
+                }
             }
 
             @Override
