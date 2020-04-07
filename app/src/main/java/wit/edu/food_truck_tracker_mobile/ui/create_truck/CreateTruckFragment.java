@@ -2,6 +2,7 @@ package wit.edu.food_truck_tracker_mobile.ui.create_truck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +23,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationParams;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import wit.edu.food_truck_tracker_mobile.MainActivity;
 import wit.edu.food_truck_tracker_mobile.R;
 import wit.edu.food_truck_tracker_mobile.api.ApiClient;
 import wit.edu.food_truck_tracker_mobile.api.TrackerApi;
@@ -36,6 +41,9 @@ import wit.edu.food_truck_tracker_mobile.models.DeleteTruckRequest;
 public class CreateTruckFragment extends Fragment {
 
     private CreateTruckViewModel slideshowViewModel;
+
+    private static String latitude = "";
+    private static String longitude = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +57,11 @@ public class CreateTruckFragment extends Fragment {
         final EditText truckLat = root.findViewById(R.id.new_truck_lat);
         final EditText truckLong = root.findViewById(R.id.new_truck_long);
 
+        getLocationUpdates();
+
+        truckLat.setText(latitude);
+        truckLong.setText(longitude);
+
         Button nextBtn = root.findViewById(R.id.create_truck_button);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -61,13 +74,16 @@ public class CreateTruckFragment extends Fragment {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CreateTruck", "");
+                //Log.d("CreateTruck", "");
+                if(truckName.getText().toString() != "" && truckType.getText().toString() != ""){
+                    handleNewTruck(jwt,truckName.getText().toString(), truckType.getText().toString());
+                }
 
                 //debug
                 //handleDeleteTruck(jwt,"Test Truck 2");
 
                 //handleNewTruck(truckName.getText().toString(), truckType.getText().toString());
-                handleNewTruck(jwt,"Test Truck 2", "Fusion");
+                //handleNewTruck(jwt,"Test Truck 2", "Fusion");
 
             }
         });
@@ -122,6 +138,19 @@ public class CreateTruckFragment extends Fragment {
             @Override
             public void onFailure(Call<CreateTruckResponse> call, Throwable t) {
                 Log.d("TAG", t.getMessage());
+            }
+        });
+    }
+
+    private void getLocationUpdates() {
+        SmartLocation.with(getActivity()).location().config(LocationParams.NAVIGATION).start(new OnLocationUpdatedListener() {
+            @Override
+            public void onLocationUpdated(Location location) {
+                if (location != null) {
+                    latitude = location.getLatitude() + "";
+                    longitude = location.getLongitude() + "";
+                } else
+                    Toast.makeText(getContext(), "Location is null", Toast.LENGTH_SHORT).show();
             }
         });
     }
