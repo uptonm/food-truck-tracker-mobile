@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">food-truck-tracker-mobile</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_logout">Log Out</string>
+
+    <string name="menu_trucks">Find Trucks</string>
+    <string name="menu_liked">Liked Trucks</string>
+    <string name="menu_create_truck">Create A Truck</string>
+    <string name="menu_login">Log In</string>
+    <string name="menu_signup">Sign Up</string>
+
+    <string name="home_second">Home Second</string>
+    <string name="login_button">Log In</string>
+    <string name="signup_button">Sign Up</string>
+
+    <string name="swipe_right_for_login">Swipe Right For Log In</string>
+    <string name="swipe_left_for_signup">Swipe Left For Sign Up</string>
+
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="password_confirm_hint">Confirm Password</string>
+
+    <string name="create_truck">Create A Truck</string>
+    <string name="create_name_hint">Truck Name</string>
+    <string name="create_type_hint">Food Type</string>
+    <string name="create_website_hint">Website URL</string>
+    <string name="create_lat_hint">Latitude Coordinate</string>
+    <string name="create_long_hint">Longitude Coordinate</string>
+    <string name="create_next_btn">Next</string>
+</resources>
