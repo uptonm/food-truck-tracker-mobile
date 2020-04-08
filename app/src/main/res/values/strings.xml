@@ -31,4 +31,5 @@
     <string name="create_lat_hint">Latitude Coordinate</string>
     <string name="create_long_hint">Longitude Coordinate</string>
     <string name="create_next_btn">Next</string>
+    <string name="manage_truck">Manage Trucks</string>
 </resources>

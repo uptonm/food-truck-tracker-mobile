@@ -64,12 +64,12 @@ public class CreateTruckFragment extends Fragment {
 
         Button nextBtn = root.findViewById(R.id.create_truck_button);
 
+        truckLat.setText(latitude);
+        truckLong.setText(longitude);
+
         SharedPreferences prefs = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         final String jwt = prefs.getString("token", "");
         Log.d("Test", "GOT TOKEN FROM STORAGE: " + jwt);
-
-        //Debug
-        //handleDeleteTruck(jwt,"Test Truck 2");
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +106,6 @@ public class CreateTruckFragment extends Fragment {
                     CreateTruckResponse createResponse = response.body();
                     //Log.d("TAG", createResponse.getUser().toString());
                     Toast.makeText(getContext(), "Creation successful", Toast.LENGTH_SHORT).show();
-                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                    navController.navigate(R.id.nav_create_truck);
                 } else {
                     Toast.makeText(getContext(), "Creation Failed", Toast.LENGTH_SHORT).show();
                     Log.d("Test", response.message());
