@@ -3,6 +3,7 @@ package wit.edu.food_truck_tracker_mobile.ui.create_truck;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,13 +55,12 @@ public class CreateTruckFragment extends Fragment {
         final EditText truckName = root.findViewById(R.id.new_truck_name);
         final EditText truckType = root.findViewById(R.id.new_truck_type);
         final EditText truckWebsite = root.findViewById(R.id.new_truck_website);
-        final EditText truckLat = root.findViewById(R.id.new_truck_lat);
-        final EditText truckLong = root.findViewById(R.id.new_truck_long);
+        EditText truckLat = root.findViewById(R.id.new_truck_lat);
+        EditText truckLong = root.findViewById(R.id.new_truck_long);
 
         getLocationUpdates();
 
-        truckLat.setText(latitude);
-        truckLong.setText(longitude);
+        Log.d("Test", "lat is " + latitude);
 
         Button nextBtn = root.findViewById(R.id.create_truck_button);
 
@@ -76,7 +76,11 @@ public class CreateTruckFragment extends Fragment {
             public void onClick(View v) {
                 //Log.d("CreateTruck", "");
                 if(truckName.getText().toString() != "" && truckType.getText().toString() != ""){
-                    handleNewTruck(jwt,truckName.getText().toString(), truckType.getText().toString());
+                    handleNewTruck(jwt,truckName.getText().toString(), truckType.getText().toString(),
+                            truckWebsite.getText().toString(), latitude,longitude);
+                }
+                else{
+                    Toast.makeText(getContext(), "Name is required", Toast.LENGTH_SHORT).show();
                 }
 
                 //debug
@@ -91,7 +95,7 @@ public class CreateTruckFragment extends Fragment {
         return root;
     }
 
-    private void handleNewTruck(String jwt, String name, String type) {
+    private void handleNewTruck(String jwt, String name, String type, String website, String lat, String lon) {
         TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);
         Call<CreateTruckResponse> create = trackerApiService.createTruck("Bearer " + jwt,new CreateTruckRequest(name, type));
         create.enqueue(new Callback<CreateTruckResponse>() {

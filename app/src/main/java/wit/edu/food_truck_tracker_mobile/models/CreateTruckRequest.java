@@ -20,6 +20,15 @@ public class CreateTruckRequest {
         this.lon = "-71.097794";
     }
 
+    public CreateTruckRequest (String name, String type, String website, String lat, String lon){
+        this.name = name;
+        this.type = type;
+        this.website = website;
+        this.menu = "";
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public String getName() {
         return name;
     }
