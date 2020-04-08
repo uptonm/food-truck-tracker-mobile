@@ -16,5 +16,9 @@
             android:id="@+id/nav_create_truck"
             android:icon="@drawable/ic_menu_truck"
             android:title="@string/menu_create_truck" />
+        <item
+            android:id="@+id/manage_truck"
+            android:icon="@drawable/ic_menu_truck"
+            android:title="@string/manage_truck" />
     </group>
 </menu>
