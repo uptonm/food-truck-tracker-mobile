@@ -23,4 +23,12 @@
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="password_confirm_hint">Confirm Password</string>
+
+    <string name="create_truck">Create A Truck</string>
+    <string name="create_name_hint">Truck Name</string>
+    <string name="create_type_hint">Food Type</string>
+    <string name="create_website_hint">Website URL</string>
+    <string name="create_lat_hint">Latitude Coordinate</string>
+    <string name="create_long_hint">Longitude Coordinate</string>
+    <string name="create_next_btn">Next</string>
 </resources>
