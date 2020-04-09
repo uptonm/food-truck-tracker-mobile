@@ -55,8 +55,8 @@ public class CreateTruckFragment extends Fragment {
         final EditText truckName = root.findViewById(R.id.new_truck_name);
         final EditText truckType = root.findViewById(R.id.new_truck_type);
         final EditText truckWebsite = root.findViewById(R.id.new_truck_website);
-        EditText truckLat = root.findViewById(R.id.new_truck_lat);
-        EditText truckLong = root.findViewById(R.id.new_truck_long);
+        final EditText truckLat = root.findViewById(R.id.new_truck_lat);
+        final EditText truckLong = root.findViewById(R.id.new_truck_long);
 
         getLocationUpdates();
 
@@ -64,8 +64,8 @@ public class CreateTruckFragment extends Fragment {
 
         Button nextBtn = root.findViewById(R.id.create_truck_button);
 
-        truckLat.setText(latitude);
-        truckLong.setText(longitude);
+        //truckLat.setText(latitude);
+        //truckLong.setText(longitude);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         final String jwt = prefs.getString("token", "");
@@ -77,7 +77,7 @@ public class CreateTruckFragment extends Fragment {
                 //Log.d("CreateTruck", "");
                 if(truckName.getText().toString() != "" && truckType.getText().toString() != ""){
                     handleNewTruck(jwt,truckName.getText().toString(), truckType.getText().toString(),
-                            truckWebsite.getText().toString(), latitude,longitude);
+                            truckWebsite.getText().toString(), latitude,truckLong.getText().toString());
                 }
                 else{
                     Toast.makeText(getContext(), "Name is required", Toast.LENGTH_SHORT).show();
@@ -149,6 +149,11 @@ public class CreateTruckFragment extends Fragment {
             @Override
             public void onLocationUpdated(Location location) {
                 if (location != null) {
+                    EditText lt = getView().findViewById(R.id.new_truck_lat);
+                    lt.setText(location.getLatitude() + "");
+                    EditText lg = getView().findViewById(R.id.new_truck_long);
+                    lg.setText(location.getLongitude() + "");
+
                     latitude = location.getLatitude() + "";
                     longitude = location.getLongitude() + "";
                 } else
