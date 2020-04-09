@@ -150,6 +150,7 @@ public class ManageFragment extends Fragment {
     }
     public void onClickDelete(String name) {
         handleDeleteTruck(jwt, name);
+        Toast.makeText(getActivity(), "Truck Deleted", Toast.LENGTH_SHORT).show();
     }
     private void handleDeleteTruck(String jwt, String name) {
         TrackerApi trackerApiService = ApiClient.getClient().create(TrackerApi.class);

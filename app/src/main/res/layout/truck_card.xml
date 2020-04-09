@@ -44,6 +44,7 @@
                 tools:text="Japanese" />
 
             <TextView
+                android:clickable="true"
                 android:id="@+id/truck_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -115,9 +115,9 @@ public class OwnedCardAdapter extends RecyclerView.Adapter<OwnedCardAdapter.Truc
             public void onResponse(Call<CreateTruckResponse> call, Response<CreateTruckResponse> response) {
                 if (response.code() == 200) {
                     CreateTruckResponse createResponse = response.body();
-                    //Toast.makeText(getContext(), "Creation successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Truck Deleted", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Creation Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Deletion Failed", Toast.LENGTH_SHORT).show();
                     Log.d("Test", response.message());
                 }
             }
