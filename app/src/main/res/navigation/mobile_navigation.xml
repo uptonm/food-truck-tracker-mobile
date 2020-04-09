@@ -49,4 +49,8 @@
         android:id="@+id/nav_signup"
         android:name="wit.edu.food_truck_tracker_mobile.ui.signup.SignupFragment"
         android:label="@string/menu_signup" />
+    <fragment
+        android:id="@+id/manage_truck"
+        android:name="wit.edu.food_truck_tracker_mobile.ui.manage.ManageFragment"
+        android:label="@string/manage_truck" />
 </navigation>
