@@ -48,49 +48,56 @@ public class CreateTruckFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                new ViewModelProvider(this).get(CreateTruckViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_create_truck, container, false);
-
-        final EditText truckName = root.findViewById(R.id.new_truck_name);
-        final EditText truckType = root.findViewById(R.id.new_truck_type);
-        final EditText truckWebsite = root.findViewById(R.id.new_truck_website);
-        final EditText truckLat = root.findViewById(R.id.new_truck_lat);
-        final EditText truckLong = root.findViewById(R.id.new_truck_long);
-
-        getLocationUpdates();
-
-        Log.d("Test", "lat is " + latitude);
-
-        Button nextBtn = root.findViewById(R.id.create_truck_button);
-
-        //truckLat.setText(latitude);
-        //truckLong.setText(longitude);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         final String jwt = prefs.getString("token", "");
-        Log.d("Test", "GOT TOKEN FROM STORAGE: " + jwt);
+        View root;
+        slideshowViewModel =
+                new ViewModelProvider(this).get(CreateTruckViewModel.class);
+        if(jwt != "") {
+             root = inflater.inflate(R.layout.fragment_create_truck, container, false);
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.d("CreateTruck", "");
-                if(truckName.getText().toString() != "" && truckType.getText().toString() != ""){
-                    handleNewTruck(jwt,truckName.getText().toString(), truckType.getText().toString(),
-                            truckWebsite.getText().toString(), latitude,truckLong.getText().toString());
+            final EditText truckName = root.findViewById(R.id.new_truck_name);
+            final EditText truckType = root.findViewById(R.id.new_truck_type);
+            final EditText truckWebsite = root.findViewById(R.id.new_truck_website);
+            final EditText truckLat = root.findViewById(R.id.new_truck_lat);
+            final EditText truckLong = root.findViewById(R.id.new_truck_long);
+
+            getLocationUpdates();
+
+            Log.d("Test", "lat is " + latitude);
+
+            Button nextBtn = root.findViewById(R.id.create_truck_button);
+
+            //truckLat.setText(latitude);
+            //truckLong.setText(longitude);
+
+
+            Log.d("Test", "GOT TOKEN FROM STORAGE: " + jwt);
+
+            nextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Log.d("CreateTruck", "");
+                    if (truckName.getText().toString() != "" && truckType.getText().toString() != "") {
+                        handleNewTruck(jwt, truckName.getText().toString(), truckType.getText().toString(),
+                                truckWebsite.getText().toString(), truckLat.getText().toString(), truckLong.getText().toString());
+                    } else {
+                        Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
+                    }
+
+                    //debug
+                    //handleDeleteTruck(jwt,"Test Truck 2");
+
+                    //handleNewTruck(truckName.getText().toString(), truckType.getText().toString());
+                    //handleNewTruck(jwt,"Test Truck 2", "Fusion");
+
                 }
-                else{
-                    Toast.makeText(getContext(), "Name is required", Toast.LENGTH_SHORT).show();
-                }
-
-                //debug
-                //handleDeleteTruck(jwt,"Test Truck 2");
-
-                //handleNewTruck(truckName.getText().toString(), truckType.getText().toString());
-                //handleNewTruck(jwt,"Test Truck 2", "Fusion");
-
-            }
-        });
+            });
+        }
+        else{
+            root = inflater.inflate(R.layout.create_truck_signin, container, false);
+        }
 
         return root;
     }
@@ -128,7 +135,6 @@ public class CreateTruckFragment extends Fragment {
             public void onResponse(Call<CreateTruckResponse> call, Response<CreateTruckResponse> response) {
                 if (response.code() == 200) {
                     CreateTruckResponse createResponse = response.body();
-                    //Toast.makeText(getContext(), "Creation successful", Toast.LENGTH_SHORT).show();
                     NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                     navController.navigate(R.id.nav_create_truck);
                 } else {
@@ -149,13 +155,16 @@ public class CreateTruckFragment extends Fragment {
             @Override
             public void onLocationUpdated(Location location) {
                 if (location != null) {
-                    EditText lt = getView().findViewById(R.id.new_truck_lat);
-                    lt.setText(location.getLatitude() + "");
-                    EditText lg = getView().findViewById(R.id.new_truck_long);
-                    lg.setText(location.getLongitude() + "");
+                    try {
+                        EditText lt = getView().findViewById(R.id.new_truck_lat);
+                        lt.setText(location.getLatitude() + "");
+                        EditText lg = getView().findViewById(R.id.new_truck_long);
+                        lg.setText(location.getLongitude() + "");
 
-                    latitude = location.getLatitude() + "";
-                    longitude = location.getLongitude() + "";
+                        latitude = location.getLatitude() + "";
+                        longitude = location.getLongitude() + "";
+                    }
+                    catch(NullPointerException npe){}
                 } else
                     Toast.makeText(getContext(), "Location is null", Toast.LENGTH_SHORT).show();
             }
